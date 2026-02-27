@@ -1,5 +1,6 @@
 package com.ecommerce.Ecomerce.service;
 
+import com.ecommerce.Ecomerce.exceptions.APIException;
 import com.ecommerce.Ecomerce.exceptions.ResourceNotFoundException;
 import com.ecommerce.Ecomerce.model.Category;
 import com.ecommerce.Ecomerce.repositories.CategoryRepository;
@@ -30,6 +31,10 @@ public class CategoryServiceImpl implements  CategoryService {
 
     @Override
     public void createCategory(Category category) {
+//        category.setCategoryId(nextId++);
+        Category savedCategory = categoryRepository.findByCategoryName(category.getCategoryName());
+        if (savedCategory != null)
+            throw new APIException("Category with the name " + category.getCategoryName() + " already exists !!!");
 //        category.setCategoryId(nextId++);
         categoryRepository.save(category);
     }
