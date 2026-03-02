@@ -1,6 +1,7 @@
 package com.ecommerce.Ecomerce.service;
 
 import com.ecommerce.Ecomerce.model.Category;
+import com.ecommerce.Ecomerce.payload.CategoryDTO;
 import com.ecommerce.Ecomerce.payload.CategoryResponse;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public interface CategoryService {
 
     String deleteCategory(Long categoryId);
 
-    Category updateCategory(Category category, Long categoryId);
+    CategoryDTO updateCategory(CategoryDTO  categoryDTO, Long categoryId);
 }

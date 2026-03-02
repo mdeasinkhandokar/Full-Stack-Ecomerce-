@@ -2,6 +2,7 @@ package com.ecommerce.Ecomerce.controller;
 
 
 import com.ecommerce.Ecomerce.model.Category;
+import com.ecommerce.Ecomerce.payload.CategoryDTO;
 import com.ecommerce.Ecomerce.payload.CategoryResponse;
 import com.ecommerce.Ecomerce.service.CategoryService;
 import jakarta.validation.Valid;
@@ -44,10 +45,10 @@ public class CategoryController {
 
 
     @PutMapping("/api/public/categories/{categoryId}")
-     public ResponseEntity<String>updateCategory(@RequestBody Category category,
-                                                 @PathVariable Long categoryId){
-        Category savedCategory = categoryService.updateCategory(category, categoryId);
-        return new ResponseEntity<>("Category with category id: " + categoryId, HttpStatus.OK);
+     public ResponseEntity<CategoryDTO>updateCategory(@RequestBody CategoryDTO categoryDTO,
+                                                      @PathVariable Long categoryId){
+        CategoryDTO savedCategoryDTO = categoryService.updateCategory(categoryDTO, categoryId);
+        return new ResponseEntity<>(savedCategoryDTO, HttpStatus.OK);
       }
 
 
