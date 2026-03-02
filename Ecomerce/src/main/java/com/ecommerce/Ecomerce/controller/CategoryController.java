@@ -1,6 +1,7 @@
 package com.ecommerce.Ecomerce.controller;
 
 
+import com.ecommerce.Ecomerce.config.AppConstants;
 import com.ecommerce.Ecomerce.model.Category;
 import com.ecommerce.Ecomerce.payload.CategoryDTO;
 import com.ecommerce.Ecomerce.payload.CategoryResponse;
@@ -23,8 +24,8 @@ public class CategoryController {
 
     @GetMapping("/api/public/categories")
     public ResponseEntity<CategoryResponse> getAllCategories(
-            @RequestParam(name = "pageNumber") Integer pageNumber,
-            @RequestParam(name = "pageSize") Integer pageSize) {
+            @RequestParam(name = "pageNumber",defaultValue = AppConstants.PAGE_NUMBER,required=false) Integer pageNumber,
+            @RequestParam(name = "pageSize" ,defaultValue = AppConstants.PAGE_NUMBER,required=false) Integer pageSize) {
         CategoryResponse categoryResponse = categoryService.getAllCategories(pageNumber, pageSize);
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
         }
