@@ -3,7 +3,10 @@ package com.ecommerce.Ecomerce.service;
 import com.ecommerce.Ecomerce.exceptions.APIException;
 import com.ecommerce.Ecomerce.exceptions.ResourceNotFoundException;
 import com.ecommerce.Ecomerce.model.Category;
+import com.ecommerce.Ecomerce.payload.CategoryDTO;
+import com.ecommerce.Ecomerce.payload.CategoryResponse;
 import com.ecommerce.Ecomerce.repositories.CategoryRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,10 +26,26 @@ public class CategoryServiceImpl implements  CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Override
-    public List<Category> getAllCategories() {
+    @Autowired
+    private ModelMapper modelMapper;
 
-        return categoryRepository.findAll();
+
+
+    @Override
+    public CategoryResponse getAllCategories() {
+        List<Category>categories= categoryRepository.findAll();
+        if(categories.isEmpty())
+            throw new APIException("No category created till now ");
+
+        List<CategoryDTO>categoryDTOS=categories.stream()
+                .map(category -> modelMapper.map(category,CategoryDTO.class))
+                .toList();
+        CategoryResponse categoryResponse =new CategoryResponse();
+        categoryResponse.setContent(categoryDTOS);
+        return categoryResponse;
+
+
+
     }
 
     @Override
