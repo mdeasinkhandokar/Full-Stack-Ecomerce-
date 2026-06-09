@@ -1,5 +1,6 @@
 package com.ecommerce.Ecomerce.controller;
 
+import com.ecommerce.Ecomerce.exceptions.ResourceNotFoundException;
 import com.ecommerce.Ecomerce.model.Product;
 import com.ecommerce.Ecomerce.payload.ProductDTO;
 import com.ecommerce.Ecomerce.payload.ProductResponse;
@@ -60,7 +61,11 @@ public class ProductController {
 
 
 
-
+    @DeleteMapping("/admin/products/{productId}")
+    public ResponseEntity<ProductDTO> deleteProduct(@PathVariable Long productId){
+        ProductDTO deletedProduct = productService.deleteProduct(productId);
+        return new ResponseEntity<>(deletedProduct, HttpStatus.OK);
+    }
 
 
 
