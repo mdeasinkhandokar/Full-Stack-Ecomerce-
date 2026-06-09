@@ -12,4 +12,5 @@ public interface ProductService {
     ProductResponse searchByCategory(Long categoryId);
 
 
+    ProductResponse searchProductByKeyword(String keyword);
 }
