@@ -4,11 +4,14 @@ import com.ecommerce.Ecomerce.exceptions.ResourceNotFoundException;
 import com.ecommerce.Ecomerce.model.Category;
 import com.ecommerce.Ecomerce.model.Product;
 import com.ecommerce.Ecomerce.payload.ProductDTO;
+import com.ecommerce.Ecomerce.payload.ProductResponse;
 import com.ecommerce.Ecomerce.repositories.CategoryRepository;
 import com.ecommerce.Ecomerce.repositories.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements   ProductService{
@@ -38,12 +41,33 @@ public class ProductServiceImpl implements   ProductService{
 
     }
 
+    @Override
+    public ProductResponse getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        List<ProductDTO> productDTOS = products.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .toList();
 
+        ProductResponse productResponse = new ProductResponse();
+        productResponse.setContent(productDTOS);
+        return productResponse;
+    }
 
+    @Override
+    public ProductResponse searchByCategory(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Category","categoryId",categoryId));
 
+        List<Product> products = productRepository.findByCategoryOrderByPriceAsc(category);
+        List<ProductDTO> productDTOS = products.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .toList();
 
-
-
+        ProductResponse productResponse = new ProductResponse();
+        productResponse.setContent(productDTOS);
+        return productResponse;
+    }
 
 
 }

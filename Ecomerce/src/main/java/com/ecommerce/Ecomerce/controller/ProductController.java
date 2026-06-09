@@ -2,6 +2,7 @@ package com.ecommerce.Ecomerce.controller;
 
 import com.ecommerce.Ecomerce.model.Product;
 import com.ecommerce.Ecomerce.payload.ProductDTO;
+import com.ecommerce.Ecomerce.payload.ProductResponse;
 import com.ecommerce.Ecomerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,4 +25,34 @@ public class ProductController {
         return new ResponseEntity<>(productDTO, HttpStatus.CREATED);
 
     }
+
+
+
+    @GetMapping("/public/products")
+    public ResponseEntity<ProductResponse> getAllProducts(){
+        ProductResponse productResponse = productService.getAllProducts();
+        return new ResponseEntity<>(productResponse,HttpStatus.OK);
+    }
+
+    @GetMapping("/public/categories/{categoryId}/products")
+    public ResponseEntity<ProductResponse> getProductsByCategory(@PathVariable Long categoryId){
+        ProductResponse productResponse = productService.searchByCategory(categoryId);
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
